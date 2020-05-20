@@ -22,6 +22,9 @@ def test_execute_pipeline_with_ipc():
         ):
             events.append(event)
 
+        if len(events) < 11:
+            raise Exception("\n".join([str(event) for event in events]))
+
         assert len(events) == 11
         assert events[0].event_type_value == DagsterEventType.PIPELINE_START.value
         assert events[-1].event_type_value == DagsterEventType.PIPELINE_SUCCESS.value
