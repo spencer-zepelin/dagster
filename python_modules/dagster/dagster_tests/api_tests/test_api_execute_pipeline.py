@@ -1,3 +1,8 @@
+import os
+import sys
+
+import pytest
+
 from dagster import file_relative_path, seven
 from dagster.api.execute_pipeline import api_execute_pipeline
 from dagster.core.definitions.reconstructable import ReconstructableRepository
@@ -5,6 +10,10 @@ from dagster.core.events import DagsterEventType
 from dagster.core.instance import DagsterInstance
 
 
+@pytest.mark.skipif(
+    sys.version_info.major < 3 and os.name == 'nt',
+    reason="This behavior isn't available on Windows py2",
+)
 def test_execute_pipeline_with_ipc():
 
     with seven.TemporaryDirectory() as temp_dir:
